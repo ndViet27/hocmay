@@ -12,10 +12,11 @@ X1 = df.iloc[:, -2].values.tolist()
 y = df.iloc[:, -1].values
 X = np.array([X1])
  
-X = np.concatenate((np.ones((1, X.shape[1])), X), axis = 0)
+X = np.concatenate((np.ones((1, X.shape[1])), X), axis = 0)# thêm cột 1 vào đầu ma trận X
 def sigmoid(s):
     return 1/(1 + np.exp(-s))
 
+#Hàm huẩn luyện 
 def logistic_sigmoid_regression(X, y, w_init, eta, tol = 1e-4, max_count = 10000):
     w = [w_init]    
     it = 0
@@ -30,11 +31,11 @@ def logistic_sigmoid_regression(X, y, w_init, eta, tol = 1e-4, max_count = 10000
             xi = X[:, i].reshape(d, 1)
             yi = y[i]
             zi = sigmoid(np.dot(w[-1].T, xi))
-            w_new = w[-1] + eta*(yi - zi)*xi
+            w_new = w[-1] + eta*(yi - zi)*xi #cập nhật w
             count += 1
-            # stopping criteria
-            if count%check_w_after == 0:                
-                if np.linalg.norm(w_new - w[-check_w_after]) < tol:
+            # Tiêu chí dừng
+            if count%check_w_after == 0: # nếu biến đếm bằng đếm kiểm tra               
+                if np.linalg.norm(w_new - w[-check_w_after]) < tol: #nếu chênh lệch giữa w mới và cũ nhỏ hơn 0.0001 thì trả về w 
                     return w
             w.append(w_new)
     return w
@@ -44,7 +45,7 @@ w_init = np.random.randn(d, 1)
 
 w = logistic_sigmoid_regression(X, y, w_init, eta)
 
-def logistic(x):
+def logistic(x):#hàm giá trị đầu ra
     y = 0
     if (sigmoid(np.dot(w[-1].T,x))) >= 0.5:
         y=1

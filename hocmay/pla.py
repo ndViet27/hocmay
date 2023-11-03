@@ -16,12 +16,13 @@ y = np.reshape(y,(1,108))
 X = np.concatenate((np.ones((1, X.shape[1])), X), axis = 0)
 
 
-def h(w, x):    
+def h(w, x):#hàm lấy dấu của w*x    
     return np.sign(np.dot(w.T, x))
 
-def has_converged(X, y, w):    
+def has_converged(X, y, w):#hàm kiểm tra dầu của w*x với nhãn y
     return np.array_equal(h(w, X), y) 
 
+#hàm huấn luyện
 def perceptron(X, y, w_init):
     w = [w_init]
     N = X.shape[1]
@@ -33,8 +34,7 @@ def perceptron(X, y, w_init):
         for i in range(N):
             xi = X[:, mix_id[i]].reshape(d, 1)
             yi = y[0, mix_id[i]]
-            if h(w[-1], xi) != yi: # misclassified point
-                # mis_points.append(mix_id[i])
+            if h(w[-1], xi) != yi: # nếu nhãn của w*x khác nhãn y thì cập nhật w
                 w_new = w[-1] + yi*xi 
                 w.append(w_new)
                 
@@ -46,7 +46,7 @@ d = X.shape[0]
 w_init = np.random.randn(d, 1)
 w = perceptron(X, y, w_init)
 
-def perceptron(x):
+def perceptron(x):# hàm giá trị đầu ra
     y=0
     if (h(w[-1],x)) == 1:
         y=1
